@@ -13,3 +13,10 @@ app_new_products:
     defaults: { _controller: AppBundle:Product:new }
     methods:  [POST]
     
+app_list_products:
+    path:      /categories/{id}/products/
+    defaults: { _controller: AppBundle:Product:list }
+    methods:  [GET]
+    requirements:
+        id: '\d+'
+    

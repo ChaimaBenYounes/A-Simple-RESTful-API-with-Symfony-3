@@ -23,7 +23,6 @@ class ProductController extends Controller
         // we will trust that the input is safe
         $data = $request->getContent();       
         $data = json_decode($data);
-        dump($data);
         if ($data == null) {
              $message = ['message' => 'An error occurred while processing your request.'];
             return new JsonResponse($message, 500);
@@ -73,5 +72,33 @@ class ProductController extends Controller
         return new JsonResponse($message, 201);
        
     } 
+    
+    public function listAction(Request $request, $id)
+    {
+        if ($id == null) {
+             $message = ['message' => 'Id parameters should be defined.'];
+            return new JsonResponse($message, 422);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+        $p = $em->getRepository('AppBundle:Product')->find(2);
+        
+        if ($category == null) {
+            $message = ['message' => 'There is no products in this category.'];
+            return new JsonResponse($message, 200); 
+        }
+        
+        $products = [];
+        foreach ($category->getProducts() as $product) {
+            $products [] = [
+                'name' => $product->getName(), 
+                'price' => $product->getPrice(), 
+                'stock' => $product->getStock(),
+            ];
+        }
+        return new JsonResponse($products, 200);
+
+    }
    
 }

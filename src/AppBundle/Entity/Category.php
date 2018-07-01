@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  * Category
@@ -28,7 +29,17 @@ class Category
      */
     private $name;
 
-
+   /**
+     * Many Groups have Many Users.
+     * @ManyToMany(targetEntity="\AppBundle\Entity\Product", mappedBy="categories")
+     */
+    private $products;
+    
+    
+     public function __construct() {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -61,5 +72,15 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+    
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

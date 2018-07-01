@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CategoryController extends Controller
 {
+    /**
+     * Create a new category.
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function newAction(Request $request)
     { 
         // GET the category parameters from the POST /categories/
@@ -49,4 +55,28 @@ class CategoryController extends Controller
         
     } 
   
+    /**
+     * Retrieve all data from database.
+     * 
+     * @return JsonResponse
+     */
+    public function listAction() 
+    {
+        $categories = $this->getDoctrine()
+            ->getRepository('AppBundle:Category')
+            ->findAll();
+
+        if ($categories == null) {
+            $message = ['message' => 'There is no data in the database'];
+            return new JsonResponse($message, 200);
+        }
+           
+        $result = [];
+        foreach($categories as $category) {
+            $result [] = ['id' => $category->getId(), 'name' => $category->getName()];
+        }
+
+        return new JsonResponse($result);
+    }
+    
 }

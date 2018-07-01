@@ -8,3 +8,8 @@ app_list_categories:
     defaults: { _controller: AppBundle:Category:list }
     methods:  [GET]
     
+app_new_products:
+    path:      /products
+    defaults: { _controller: AppBundle:Product:new }
+    methods:  [POST]
+    

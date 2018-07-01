@@ -1,0 +1,5 @@
+app_categories:
+    path:      /categories
+    defaults: { _controller: AppBundle:Category:new }
+    methods:  [POST]
+    
